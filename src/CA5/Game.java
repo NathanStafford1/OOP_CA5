@@ -1,9 +1,17 @@
 package CA5;
 
-public class Game
+import java.util.Objects;
+
+public class Game implements Comparable<Game>
 {
     String name;
     Double price;
+
+    @Override
+    public int compareTo(Game o)
+    {
+        return (int) (this.getPrice() - o.getPrice());
+    }
 
     public String getName() {
         return name;

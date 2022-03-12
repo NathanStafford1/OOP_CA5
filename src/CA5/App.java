@@ -26,13 +26,15 @@ public class App {
                 + "1. Fill arraylist and display\n"
                 + "2. HashMap\n"
                 + "3. Treemap\n"
-                + "4. Exit\n"
-                + "Enter Option [1,4]";
+                + "4. Priority Queue\n"
+                + "5. Exit\n"
+                + "Enter Option [1,5]";
 
         final int ArrayList = 1;
         final int hashMap = 2;
         final int TREEMAP = 3;
-        final int EXIT = 4;
+        final int PRIORITYQUEUE = 4;
+        final int EXIT = 5;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -53,6 +55,10 @@ public class App {
                     case TREEMAP:
                         System.out.println("Treemap order of items");
                         TreeMap();
+                        break;
+                    case PRIORITYQUEUE:
+                        System.out.println("Priority Queue option chosen");
+                        PriorityQueue();
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -137,5 +143,30 @@ public class App {
                     + game.getName() + ", Price:" + game.getPrice() +
                     ", Quantity: " + game.getQuantity());
         }
+    }
+    void PriorityQueue()
+    {
+        PriorityQueue<Game> queue = new PriorityQueue<Game>(new GamePriceComparator(SortType.Ascending));
+
+        queue.add(new Game("Halo", 10.0, 5));
+        queue.add(new Game("Forza", 10.0, 17));
+        queue.add(new Game("Minecraft", 10.0, 37));
+        queue.add(new Game("NBA", 5.0, 24));
+        queue.add(new Game("Fifa", 5.0, 11));
+
+        Iterator<Game> iterator = queue.iterator();
+        if (iterator.hasNext()) {
+            System.out.println(queue.remove());
+
+        queue.add(new Game("Borderlands", 3.0, 11));
+
+            while (iterator.hasNext()) {
+                System.out.println(queue.remove());
+
+
+
+    }
+}
+
     }
 }
