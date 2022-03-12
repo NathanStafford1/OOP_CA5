@@ -1,0 +1,4 @@
+ArrayList: 0(1)
+Queue: 0(n)
+HashMap: 0(1)
+Treemap: 0(LogN)
