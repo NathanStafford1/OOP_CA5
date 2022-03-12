@@ -27,14 +27,16 @@ public class App {
                 + "2. HashMap\n"
                 + "3. Treemap\n"
                 + "4. Priority Queue\n"
-                + "5. Exit\n"
-                + "Enter Option [1,5]";
+                + "5. Priority Queue with option\n"
+                + "6. Exit\n"
+                + "Enter Option [1,6]";
 
         final int ArrayList = 1;
         final int hashMap = 2;
         final int TREEMAP = 3;
         final int PRIORITYQUEUE = 4;
-        final int EXIT = 5;
+        final int PRIORITYQUEUE2 = 5;
+        final int EXIT = 6;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -59,6 +61,10 @@ public class App {
                     case PRIORITYQUEUE:
                         System.out.println("Priority Queue option chosen");
                         PriorityQueue();
+                        break;
+                    case PRIORITYQUEUE2:
+                        System.out.println("Priority Queue with user options chosen");
+                        PriorityQueueUserOption();
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -157,16 +163,59 @@ public class App {
         Iterator<Game> iterator = queue.iterator();
         if (iterator.hasNext()) {
             System.out.println(queue.remove());
-
+        }
         queue.add(new Game("Borderlands", 3.0, 11));
 
             while (iterator.hasNext()) {
                 System.out.println(queue.remove());
-
-
-
-    }
-}
+            }
 
     }
+    void PriorityQueueUserOption()
+    {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Display queue in priority of 1.Price or 2.Name [1,2]");
+        int choice = keyboard.nextInt();
+
+        if (choice == 1)
+        {
+            PriorityQueue<Game> queue = new PriorityQueue<Game>(new GamePriceComparator(SortType.Ascending));
+
+            queue.add(new Game("Halo", 49.99, 5));
+            queue.add(new Game("Forza", 59.99, 17));
+            queue.add(new Game("Minecraft", 19.99, 37));
+            queue.add(new Game("NBA", 49.99, 24));
+            queue.add(new Game("Fifa", 49.99, 11));
+            queue.add(new Game("Borderlands", 39.99, 11));
+            queue.add(new Game("Rocket league", 29.99, 19));
+            queue.add(new Game("Fortnite", 0.0, 100));
+            queue.add(new Game("F1", 49.99, 14));
+            queue.add(new Game("Call of duty", 49.99, 5));
+
+            Iterator<Game> iterator = queue.iterator();
+            while (iterator.hasNext()) {
+                System.out.println(queue.remove());
+            }
+        }
+        else
+        {
+            PriorityQueue<Game> queue = new PriorityQueue<Game>(new GameNameComparator());
+
+            queue.add(new Game("Halo", 49.99, 5));
+            queue.add(new Game("Forza", 59.99, 17));
+            queue.add(new Game("Minecraft", 19.99, 37));
+            queue.add(new Game("NBA", 49.99, 24));
+            queue.add(new Game("Fifa", 49.99, 11));
+            queue.add(new Game("Borderlands", 39.99, 11));
+            queue.add(new Game("Rocket league", 29.99, 19));
+            queue.add(new Game("Fortnite", 0.0, 100));
+            queue.add(new Game("F1", 49.99, 14));
+            queue.add(new Game("Call of duty", 49.99, 5));
+
+            Iterator<Game> iterator = queue.iterator();
+
+            while (iterator.hasNext()) {
+                System.out.println(queue.remove());
+        }
+    }}
 }
