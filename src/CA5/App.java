@@ -3,6 +3,10 @@ package CA5;
 import java.io.IOException;
 import java.util.*;
 import java.util.Scanner;
+import DAOs.MySqlGameDao;
+import DAOs.GameDaoInterface;
+import Exception.DaoException;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
@@ -28,15 +32,17 @@ public class App {
                 + "3. Treemap\n"
                 + "4. Priority Queue\n"
                 + "5. Priority Queue with option\n"
-                + "6. Exit\n"
-                + "Enter Option [1,6]";
+                + "6. Database options\n"
+                + "7. Exit\n"
+                + "Enter Option [1,7]";
 
         final int ArrayList = 1;
         final int hashMap = 2;
         final int TREEMAP = 3;
         final int PRIORITYQUEUE = 4;
         final int PRIORITYQUEUE2 = 5;
-        final int EXIT = 6;
+        final int databaseConnections = 6;
+        final int EXIT = 7;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -65,6 +71,10 @@ public class App {
                     case PRIORITYQUEUE2:
                         System.out.println("Priority Queue with user options chosen");
                         PriorityQueueUserOption();
+                        break;
+                    case databaseConnections:
+                        System.out.println("Database connections options chosen");
+                        databaseConnection();
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -122,9 +132,7 @@ public class App {
         if (GameMap.containsKey(key)) {
             System.out.println("Key found: ");
             System.out.println(GameMap.get(key));
-        }
-        else
-        {
+        } else {
             System.out.println("No key found in map");
         }
     }
@@ -152,8 +160,8 @@ public class App {
                     ", Quantity: " + game.getQuantity());
         }
     }
-    void PriorityQueue()
-    {
+
+    void PriorityQueue() {
         PriorityQueue<Game> queue = new PriorityQueue<Game>(new GamePriceComparator(SortType.Ascending));
 
         queue.add(new Game("Halo", 10.0, 5));
@@ -168,19 +176,18 @@ public class App {
         }
         queue.add(new Game("Borderlands", 3.0, 11));
 
-            while (iterator.hasNext()) {
-                System.out.println(queue.remove());
-            }
+        while (iterator.hasNext()) {
+            System.out.println(queue.remove());
+        }
 
     }
-    void PriorityQueueUserOption()
-    {
+
+    void PriorityQueueUserOption() {
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Display queue in priority of 1.Price or 2.Name [1,2]");
         int choice = keyboard.nextInt();
 
-        if (choice == 1)
-        {
+        if (choice == 1) {
             PriorityQueue<Game> queue = new PriorityQueue<Game>(new GamePriceComparator(SortType.Ascending));
 
             queue.add(new Game("Halo", 49.99, 5));
@@ -198,9 +205,7 @@ public class App {
             while (iterator.hasNext()) {
                 System.out.println(queue.remove());
             }
-        }
-        else
-        {
+        } else {
             PriorityQueue<Game> queue = new PriorityQueue<Game>(new GameNameComparator());
 
             queue.add(new Game("Halo", 49.99, 5));
@@ -218,6 +223,96 @@ public class App {
 
             while (iterator.hasNext()) {
                 System.out.println(queue.remove());
+            }
         }
-    }}
+    }
+
+    void databaseConnection() {
+        final String MENU_ITEMS = "\n*** DATABASE OPTIONS ***\n"
+                + "1. View all games\n"
+                + "2. Find and display game by its ID\n"
+                + "3. Exit\n"
+                + "Enter Option [1,3]";
+
+        final int viewallgames = 1;
+        final int findbyid = 2;
+        final int EXIT = 3;
+
+        Scanner keyboard = new Scanner(System.in);
+        int option = 0;
+        do {
+            System.out.println("\n" + MENU_ITEMS);
+            try {
+                String usersInput = keyboard.nextLine();
+                option = Integer.parseInt(usersInput);
+                switch (option) {
+                    case viewallgames:
+                        System.out.println("View all games");
+                        viewAllGames();
+                        break;
+                    case findbyid:
+                        System.out.println("Find game by ID");
+                        findGameByID();
+                        break;
+                    case EXIT:
+                        System.out.println("Exit Menu option chosen");
+                        break;
+                    default:
+                        System.out.print("Invalid option - please enter number in range");
+                        break;
+                }
+
+            } catch (InputMismatchException | NumberFormatException e) {
+                System.out.print("Invalid option - please enter number in range");
+            }
+        } while (option != EXIT);
+
+        System.out.println("\nExiting Database menu.");
+
+
+    }
+
+    void viewAllGames() {
+        GameDaoInterface IGameDao = new MySqlGameDao();
+
+        try {
+            System.out.println("\nCall findAllGames()");
+            List<DTOs.Game> games = IGameDao.findAllGames();
+
+            if (games.isEmpty())
+                System.out.println("There are no Games");
+            else {
+                for (DTOs.Game game : games)
+                    System.out.println("User: " + game.toString());
+            }
+
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    void findGameByID() {
+        GameDaoInterface IGameDao = new MySqlGameDao();
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("\nCall findGameByID()");
+            System.out.println("Enter ID of game to find(1-10): ");
+            int id = scanner.nextInt();
+            DTOs.Game game = IGameDao.findGameByID(id);
+
+            if (game != null)
+                System.out.println("Game: " + game);
+            else
+            {
+                    System.out.println("No game matching id: " + id );
+            }
+
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
 }
