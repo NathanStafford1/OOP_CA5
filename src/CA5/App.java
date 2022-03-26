@@ -122,7 +122,9 @@ public class App {
         if (GameMap.containsKey(key)) {
             System.out.println("Key found: ");
             System.out.println(GameMap.get(key));
-        } else {
+        }
+        else
+        {
             System.out.println("No key found in map");
         }
     }
