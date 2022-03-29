@@ -116,6 +116,48 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
         }
         return game;     // reference to User object, or null value
     }
+    @Override
+    public void deleteGameByID(int id) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Game game = null;
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "DELETE FROM games WHERE game_ID = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e)
+        {
+            throw new DaoException("deleteGameByID() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (preparedStatement != null)
+                {
+                    preparedStatement.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("deleteGameByID() " + e.getMessage());
+            }
+        }
+    }
 
 
 }

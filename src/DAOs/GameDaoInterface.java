@@ -9,4 +9,6 @@ public interface GameDaoInterface
     public List<Game> findAllGames() throws DaoException;
 
     public Game findGameByID(int id) throws DaoException;
+
+    public void deleteGameByID(int id) throws DaoException;
 }

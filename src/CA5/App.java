@@ -231,12 +231,14 @@ public class App {
         final String MENU_ITEMS = "\n*** DATABASE OPTIONS ***\n"
                 + "1. View all games\n"
                 + "2. Find and display game by its ID\n"
-                + "3. Exit\n"
-                + "Enter Option [1,3]";
+                + "3. Delete game by its ID\n"
+                + "4. Exit\n"
+                + "Enter Option [1,4]";
 
         final int viewallgames = 1;
         final int findbyid = 2;
-        final int EXIT = 3;
+        final int deletebyid = 3;
+        final int EXIT = 4;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -253,6 +255,10 @@ public class App {
                     case findbyid:
                         System.out.println("Find game by ID");
                         findGameByID();
+                        break;
+                    case deletebyid:
+                        System.out.println("Delete game by ID");
+                        deleteGameByID();
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -309,6 +315,21 @@ public class App {
                     System.out.println("No game matching id: " + id );
             }
 
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+    void deleteGameByID() {
+        GameDaoInterface IGameDao = new MySqlGameDao();
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("\nCall deleteGameByID()");
+            System.out.println("Enter ID of game to delete(1-10): ");
+            int id = scanner.nextInt();
+
+            IGameDao.deleteGameByID(id);
         }
         catch( DaoException e )
         {
