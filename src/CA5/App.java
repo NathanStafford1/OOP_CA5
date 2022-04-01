@@ -232,13 +232,15 @@ public class App {
                 + "1. View all games\n"
                 + "2. Find and display game by its ID\n"
                 + "3. Delete game by its ID\n"
-                + "4. Exit\n"
-                + "Enter Option [1,4]";
+                + "4. Add new Game\n"
+                + "5. Exit\n"
+                + "Enter Option [1,5]";
 
         final int viewallgames = 1;
         final int findbyid = 2;
         final int deletebyid = 3;
-        final int EXIT = 4;
+        final int addnewgame = 4;
+        final int EXIT = 5;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -260,6 +262,10 @@ public class App {
                         System.out.println("Delete game by ID");
                         deleteGameByID();
                         break;
+                    case addnewgame:
+                        System.out.println("Add a new game");
+                        addNewGame();
+                        break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
                         break;
@@ -271,11 +277,9 @@ public class App {
             } catch (InputMismatchException | NumberFormatException e) {
                 System.out.print("Invalid option - please enter number in range");
             }
-        } while (option != EXIT);
-
+        }
+        while (option != EXIT);
         System.out.println("\nExiting Database menu.");
-
-
     }
 
     void viewAllGames() {
@@ -321,15 +325,40 @@ public class App {
             e.printStackTrace();
         }
     }
+
     void deleteGameByID() {
         GameDaoInterface IGameDao = new MySqlGameDao();
         Scanner scanner = new Scanner(System.in);
         try {
             System.out.println("\nCall deleteGameByID()");
-            System.out.println("Enter ID of game to delete(1-10): ");
+            System.out.println("Enter ID of game to delete: ");
             int id = scanner.nextInt();
 
             IGameDao.deleteGameByID(id);
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    void addNewGame() {
+        GameDaoInterface IGameDao = new MySqlGameDao();
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("\nCall addNewGame()");
+
+            System.out.println("Enter name of game to add: ");
+            String name = scanner.next();
+
+            System.out.println("Enter price of game to add: ");
+            double price = scanner.nextDouble();
+
+            System.out.println("Enter quantity of game to add: ");
+            int quantity = scanner.nextInt();
+
+            IGameDao.addNewGame(name,price,quantity);
+
         }
         catch( DaoException e )
         {
