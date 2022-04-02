@@ -18,4 +18,6 @@ public interface GameDaoInterface
 
     public void findAllGamesJSON() throws DaoException;
 
+    public void findAllGameIDJSON(int id) throws DaoException;
+
 }

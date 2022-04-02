@@ -235,8 +235,9 @@ public class App {
                 + "4. Add new Game\n"
                 + "5. View all games sorted by price\n"
                 + "6. View all games in JSON format\n"
-                + "7. Exit\n"
-                + "Enter Option [1,6]";
+                + "7. Find games by ID in JSON format\n"
+                + "8. Exit\n"
+                + "Enter Option [1,8]";
 
         final int viewallgames = 1;
         final int findbyid = 2;
@@ -244,7 +245,8 @@ public class App {
         final int addnewgame = 4;
         final int viewallgamesusingfilter = 5;
         final int findallgamesJson = 6;
-        final int EXIT = 7;
+        final int findgameByIdJson = 7;
+        final int EXIT = 8;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -277,6 +279,10 @@ public class App {
                     case findallgamesJson:
                         System.out.println("View all games sorted by price");
                         FindAllGamesJson();
+                        break;
+                    case findgameByIdJson:
+                        System.out.println("View all games sorted by price");
+                        FindGameByIdJson();
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -414,6 +420,24 @@ public class App {
         try {
             System.out.println("\nCall findAllGamesJSON()");
             IGameDao.findAllGamesJSON();
+
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    void FindGameByIdJson()
+    {
+        GameDaoInterface IGameDao = new MySqlGameDao();
+        Scanner scanner = new Scanner(System.in);
+        try
+        {
+            System.out.println("\nCall findAllGamesJSON()");
+            System.out.println("Enter Id of game to view as a JSON:");
+            int id = scanner.nextInt();
+            IGameDao.findAllGameIDJSON(id);
 
         }
         catch( DaoException e )
