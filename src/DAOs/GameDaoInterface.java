@@ -13,4 +13,9 @@ public interface GameDaoInterface
     public void deleteGameByID(int id) throws DaoException;
 
     public void addNewGame(String name, double price, int quantity) throws DaoException;
+
+    public List<Game> findGamesUsingFilter() throws DaoException;
+
+    public void findAllGamesJSON() throws DaoException;
+
 }

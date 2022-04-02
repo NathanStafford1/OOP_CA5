@@ -233,14 +233,18 @@ public class App {
                 + "2. Find and display game by its ID\n"
                 + "3. Delete game by its ID\n"
                 + "4. Add new Game\n"
-                + "5. Exit\n"
-                + "Enter Option [1,5]";
+                + "5. View all games sorted by price\n"
+                + "6. View all games in JSON format\n"
+                + "7. Exit\n"
+                + "Enter Option [1,6]";
 
         final int viewallgames = 1;
         final int findbyid = 2;
         final int deletebyid = 3;
         final int addnewgame = 4;
-        final int EXIT = 5;
+        final int viewallgamesusingfilter = 5;
+        final int findallgamesJson = 6;
+        final int EXIT = 7;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -265,6 +269,14 @@ public class App {
                     case addnewgame:
                         System.out.println("Add a new game");
                         addNewGame();
+                        break;
+                    case viewallgamesusingfilter:
+                        System.out.println("View all games sorted by price");
+                        viewGamesUsingFilter();
+                        break;
+                    case findallgamesJson:
+                        System.out.println("View all games sorted by price");
+                        FindAllGamesJson();
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -308,7 +320,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         try {
             System.out.println("\nCall findGameByID()");
-            System.out.println("Enter ID of game to find(1-10): ");
+            System.out.println("Enter ID of game to find: ");
             int id = scanner.nextInt();
             DTOs.Game game = IGameDao.findGameByID(id);
 
@@ -333,8 +345,15 @@ public class App {
             System.out.println("\nCall deleteGameByID()");
             System.out.println("Enter ID of game to delete: ");
             int id = scanner.nextInt();
-
-            IGameDao.deleteGameByID(id);
+            DTOs.Game game = IGameDao.findGameByID(id);
+            if (game == null)
+            {
+                System.out.println("This game does not exist");
+            }
+            else
+            {
+                IGameDao.deleteGameByID(id);
+            }
         }
         catch( DaoException e )
         {
@@ -358,6 +377,43 @@ public class App {
             int quantity = scanner.nextInt();
 
             IGameDao.addNewGame(name,price,quantity);
+
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    void viewGamesUsingFilter() {
+        GameDaoInterface IGameDao = new MySqlGameDao();
+
+        try {
+            System.out.println("\nCall findAllGames()");
+            List<DTOs.Game> games = IGameDao.findGamesUsingFilter();
+
+            //Collections.sort(games, new GameNameComparator());
+
+            if (games.isEmpty())
+                System.out.println("There are no Games");
+            else {
+                for (DTOs.Game game : games)
+                    System.out.println("User: " + game.toString());
+            }
+
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+    void FindAllGamesJson()
+    {
+        GameDaoInterface IGameDao = new MySqlGameDao();
+
+        try {
+            System.out.println("\nCall findAllGamesJSON()");
+            IGameDao.findAllGamesJSON();
 
         }
         catch( DaoException e )

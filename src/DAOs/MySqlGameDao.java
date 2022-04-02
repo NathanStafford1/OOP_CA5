@@ -1,5 +1,6 @@
 package DAOs;
 
+import CA5.GamePriceComparator;
 import DTOs.Game;
 import Exception.DaoException;
 import java.sql.Connection;
@@ -8,6 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 public class MySqlGameDao extends MySqlDao implements GameDaoInterface
 {
@@ -202,6 +207,116 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
             }
         }
     }
+    @Override
+    public List<Game> findGamesUsingFilter() throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        List<Game> gamesList = new ArrayList<>();
 
+        try
+        {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM games";
+            ps = connection.prepareStatement(query);
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int game_id = resultSet.getInt("GAME_ID");
+                String name = resultSet.getString("NAME");
+                double price = resultSet.getDouble("PRICE");
+                int quantity = resultSet.getInt("QUANTITY");
+                Game g = new Game(game_id,name,price,quantity);
+                gamesList.add(g);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("findAllGames() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("findAllGames() " + e.getMessage());
+            }
+        }
+        return gamesList;     // may be empty
+    }
+
+    @Override
+    public void findAllGamesJSON() throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        List<Game> gamesList = new ArrayList<>();
+
+        try
+        {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM games";
+            ps = connection.prepareStatement(query);
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int game_id = resultSet.getInt("GAME_ID");
+                String name = resultSet.getString("NAME");
+                double price = resultSet.getDouble("PRICE");
+                int quantity = resultSet.getInt("QUANTITY");
+                Game g = new Game(game_id,name,price,quantity);
+                gamesList.add(g);
+            }
+            Gson gsonParser = new Gson();
+            String gamesJsonString = gsonParser.toJson(gamesList);
+            System.out.println("Games as a JSON String: ");
+            System.out.println(gamesJsonString);
+
+        } catch (SQLException e)
+        {
+            throw new DaoException("findAllGames() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("findAllGames() " + e.getMessage());
+            }
+        }
+    }
 
 }
