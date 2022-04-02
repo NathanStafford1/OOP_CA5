@@ -398,7 +398,7 @@ public class App {
             System.out.println("\nCall findAllGames()");
             List<DTOs.Game> games = IGameDao.findGamesUsingFilter();
 
-            //Collections.sort(games, new GameNameComparator());
+            Collections.sort(games, new DTOs.GamePriceComparator(SortType.Ascending));
 
             if (games.isEmpty())
                 System.out.println("There are no Games");
