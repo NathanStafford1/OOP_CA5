@@ -170,6 +170,33 @@ public class Server
                             e.printStackTrace();
                         }
                     }
+//                    else if (message.startsWith("ADD")) //MUST BE UPPERCASE
+//                    {
+//                        GameDaoInterface IGameDao = new MySqlGameDao();
+//                        String tokens[];
+//                        try {
+//                            IGameDao.addNewGame();
+//
+//                        }
+//                        catch(DaoException e )
+//                        {
+//                            e.printStackTrace();
+//                        }
+//                    }
+                    else if (message.startsWith("DELETE")) //MUST BE UPPERCASE
+                    {
+                        GameDaoInterface IGameDao = new MySqlGameDao();
+                        String id = message.substring(7);
+                        try
+                        {
+                            IGameDao.deleteGameByID(id);
+                            socketWriter.println("Game deleted is ID exists");
+                        }
+                        catch(DaoException e )
+                        {
+                            e.printStackTrace();
+                        }
+                    }
                     else
                     {
                         socketWriter.println("I'm sorry I don't understand :(");

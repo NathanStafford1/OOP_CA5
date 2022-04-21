@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class MySqlGameDao extends MySqlDao implements GameDaoInterface
 {
@@ -285,7 +286,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
                 Game g = new Game(game_id,name,price,quantity);
                 gamesList.add(g);
             }
-            Gson gsonParser = new Gson();
+            Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
             String gamesJsonString = gsonParser.toJson(gamesList);
             System.out.println("Games as a JSON String: ");
             System.out.println(gamesJsonString);
@@ -343,7 +344,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
                 Game g = new Game(game_id,name,price,quantity);
                 gamesList.add(g);
             }
-            Gson gsonParser = new Gson();
+            Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
             String gamesJsonString = gsonParser.toJson(gamesList);
             System.out.println("Game as a JSON String: ");
             System.out.println(gamesJsonString);

@@ -49,7 +49,7 @@ public class Client
 
             System.out.println("Client message: The Client is running and has connected to the server");
 
-            System.out.println("Please enter a command:  (\"ID\" followed by the ID to search the database for a game, " +
+            System.out.println("Please enter a command:  (\"ID\" followed by the ID to search the database for a game, \"ALL\" to view all games in database " +
                     ") \n>");
             String command = in.nextLine();
 
@@ -68,6 +68,16 @@ public class Client
                     System.out.println("Client message: Response from server: \" " + input + " \"");
                 }
                 else if(command.startsWith("ALL"))   //we expect the server to return a time (in milliseconds)
+                {
+                    String input = socketReader.nextLine();
+                    System.out.println("Client message: Response from server: \" " + input + " \"");
+                }
+                else if(command.startsWith("ADD"))   //we expect the server to return a time (in milliseconds)
+                {
+                    String input = socketReader.nextLine();
+                    System.out.println("Client message: Response from server: \" " + input + " \"");
+                }
+                else if(command.startsWith("DELETE"))   //we expect the server to return a time (in milliseconds)
                 {
                     String input = socketReader.nextLine();
                     System.out.println("Client message: Response from server: \" " + input + " \"");
