@@ -327,7 +327,7 @@ public class App {
         try {
             System.out.println("\nCall findGameByID()");
             System.out.println("Enter ID of game to find: ");
-            int id = scanner.nextInt();
+            String id = scanner.nextLine();
             DTOs.Game game = IGameDao.findGameByID(id);
 
             if (game != null)
@@ -350,7 +350,7 @@ public class App {
         try {
             System.out.println("\nCall deleteGameByID()");
             System.out.println("Enter ID of game to delete: ");
-            int id = scanner.nextInt();
+            String id = scanner.nextLine();
             DTOs.Game game = IGameDao.findGameByID(id);
             if (game == null)
             {
@@ -436,7 +436,7 @@ public class App {
         {
             System.out.println("\nCall findAllGamesJSON()");
             System.out.println("Enter Id of game to view as a JSON:");
-            int id = scanner.nextInt();
+            String id = scanner.nextLine();
             IGameDao.findAllGameIDJSON(id);
 
         }

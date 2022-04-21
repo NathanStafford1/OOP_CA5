@@ -10,9 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 
 public class MySqlGameDao extends MySqlDao implements GameDaoInterface
 {
@@ -36,7 +33,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
-                int game_id = resultSet.getInt("GAME_ID");
+                String game_id = resultSet.getString("GAME_ID");
                 String name = resultSet.getString("NAME");
                 double price = resultSet.getDouble("PRICE");
                 int quantity = resultSet.getInt("QUANTITY");
@@ -70,7 +67,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
         return gamesList;     // may be empty
 }
     @Override
-    public Game findGameByID(int id) throws DaoException
+    public Game findGameByID(String id) throws DaoException
     {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -82,12 +79,12 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
 
             String query = "SELECT * FROM games WHERE game_ID = ?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
 
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
             {
-                int game_id = resultSet.getInt("GAME_ID");
+                String game_id = resultSet.getString("GAME_ID");
                 String name = resultSet.getString("NAME");
                 double price = resultSet.getDouble("PRICE");
                 int quantity = resultSet.getInt("QUANTITY");
@@ -122,7 +119,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
         return game;     // reference to User object, or null value
     }
     @Override
-    public void deleteGameByID(int id) throws DaoException
+    public void deleteGameByID(String id) throws DaoException
     {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -134,7 +131,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
 
             String query = "DELETE FROM games WHERE game_ID = ?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
 
             preparedStatement.executeUpdate();
 
@@ -227,7 +224,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
-                int game_id = resultSet.getInt("GAME_ID");
+                String game_id = resultSet.getString("GAME_ID");
                 String name = resultSet.getString("NAME");
                 double price = resultSet.getDouble("PRICE");
                 int quantity = resultSet.getInt("QUANTITY");
@@ -281,7 +278,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
-                int game_id = resultSet.getInt("GAME_ID");
+                String game_id = resultSet.getString("GAME_ID");
                 String name = resultSet.getString("NAME");
                 double price = resultSet.getDouble("PRICE");
                 int quantity = resultSet.getInt("QUANTITY");
@@ -320,7 +317,7 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
     }
 
     @Override
-    public void findAllGameIDJSON(int id) throws DaoException
+    public void findAllGameIDJSON(String id) throws DaoException
     {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -334,12 +331,12 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
 
             String query = "SELECT * FROM games WHERE game_ID = ?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
 
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
             {
-                int game_id = resultSet.getInt("GAME_ID");
+                String game_id = resultSet.getString("GAME_ID");
                 String name = resultSet.getString("NAME");
                 double price = resultSet.getDouble("PRICE");
                 int quantity = resultSet.getInt("QUANTITY");
