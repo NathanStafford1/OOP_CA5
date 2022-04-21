@@ -154,6 +154,22 @@ public class Server
                             e.printStackTrace();
                         }
                     }
+                    else if (message.startsWith("ALL")) //MUST BE UPPERCASE
+                    {
+                        GameDaoInterface IGameDao = new MySqlGameDao();
+                        try {
+                             gamesList = IGameDao.findAllGames();
+
+                                Gson gsonParser = new Gson();
+                                String gamesJsonString = gsonParser.toJson(gamesList);
+                                socketWriter.println(gamesJsonString);
+
+                        }
+                        catch(DaoException e )
+                        {
+                            e.printStackTrace();
+                        }
+                    }
                     else
                     {
                         socketWriter.println("I'm sorry I don't understand :(");

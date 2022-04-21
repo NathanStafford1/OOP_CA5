@@ -67,6 +67,11 @@ public class Client
                     String input = socketReader.nextLine();
                     System.out.println("Client message: Response from server: \" " + input + " \"");
                 }
+                else if(command.startsWith("ALL"))   //we expect the server to return a time (in milliseconds)
+                {
+                    String input = socketReader.nextLine();
+                    System.out.println("Client message: Response from server: \" " + input + " \"");
+                }
                 System.out.println("Enter next command: ");
                 command = in.nextLine();
                 socketWriter.println(command);
