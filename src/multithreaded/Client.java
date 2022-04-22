@@ -18,18 +18,11 @@ package multithreaded;
  * (Both the server and the client will be running together on this computer)
  */
 
-
-import DAOs.GameDaoInterface;
-import DAOs.MySqlGameDao;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import Exception.DaoException;
-import com.google.gson.Gson;
-
 
 public class Client
 {
@@ -49,7 +42,11 @@ public class Client
 
             System.out.println("Client message: The Client is running and has connected to the server");
 
-            System.out.println("Please enter a command:  (\"ID\" followed by the ID to search the database for a game, \"ALL\" to view all games in database " +
+            System.out.println("Please enter a command:  (\"ID\" followed by the ID to search the database for a game," +
+                    " \"ALL\" to view all games in database, " +
+                    " \"ADD\" followed by the data to add a game to the database, " +
+                    "\"DELETE\" followed by the ID of the game you want to delete, " +
+                    "\"AVERAGE\" to get the average price of the games" +
                     ") \n>");
             String command = in.nextLine();
 
@@ -78,6 +75,11 @@ public class Client
                     System.out.println("Client message: Response from server: \" " + input + " \"");
                 }
                 else if(command.startsWith("DELETE"))   //we expect the server to return a time (in milliseconds)
+                {
+                    String input = socketReader.nextLine();
+                    System.out.println("Client message: Response from server: \" " + input + " \"");
+                }
+                else if(command.startsWith("AVERAGE"))   //we expect the server to return a time (in milliseconds)
                 {
                     String input = socketReader.nextLine();
                     System.out.println("Client message: Response from server: \" " + input + " \"");

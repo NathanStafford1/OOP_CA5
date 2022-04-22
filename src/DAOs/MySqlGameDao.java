@@ -68,6 +68,59 @@ public class MySqlGameDao extends MySqlDao implements GameDaoInterface
         return gamesList;     // may be empty
 }
     @Override
+    public double findAllGamesAverage() throws DaoException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        double average = 0;
+        int count = 0;
+
+        try {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM games";
+            ps = connection.prepareStatement(query);
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                String game_id = resultSet.getString("GAME_ID");
+                String name = resultSet.getString("NAME");
+                double price = resultSet.getDouble("PRICE");
+                int quantity = resultSet.getInt("QUANTITY");
+                Game g = new Game(game_id, name, price, quantity);
+                double temp = g.getPrice();
+                count++;
+                average += temp;
+            }
+            average = average / count;
+        }
+        catch (SQLException e)
+        {
+            throw new DaoException("findAllGames() " + e.getMessage());
+        }
+        finally
+        {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            }
+            catch (SQLException e)
+            {
+                throw new DaoException("findAllGames() " + e.getMessage());
+            }
+        }
+        return average;
+    }
+    @Override
     public Game findGameByID(String id) throws DaoException
     {
         Connection connection = null;

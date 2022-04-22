@@ -20,4 +20,5 @@ public interface GameDaoInterface
 
     public void findAllGameIDJSON(String id) throws DaoException;
 
+    public double findAllGamesAverage() throws DaoException;
 }

@@ -197,6 +197,19 @@ public class Server
                             e.printStackTrace();
                         }
                     }
+                    else if (message.startsWith("AVERAGE")) //MUST BE UPPERCASE
+                    {
+                        GameDaoInterface IGameDao = new MySqlGameDao();
+                        try
+                        {
+                            double average = IGameDao.findAllGamesAverage();
+                            socketWriter.println("Average price of games: " + average);
+                        }
+                        catch(DaoException e )
+                        {
+                            e.printStackTrace();
+                        }
+                    }
                     else
                     {
                         socketWriter.println("I'm sorry I don't understand :(");
