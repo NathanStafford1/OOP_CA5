@@ -123,6 +123,7 @@ public class Server
         public void run()
         {
             List<DTOs.Game> gamesList = new ArrayList<>();
+            Gson gson = new Gson();
             String message;
             try
             {
@@ -170,27 +171,40 @@ public class Server
                             e.printStackTrace();
                         }
                     }
-//                    else if (message.startsWith("ADD")) //MUST BE UPPERCASE
-//                    {
-//                        GameDaoInterface IGameDao = new MySqlGameDao();
-//                        String tokens[];
-//                        try {
-//                            IGameDao.addNewGame();
-//
-//                        }
-//                        catch(DaoException e )
-//                        {
-//                            e.printStackTrace();
-//                        }
-//                    }
+                    else if (message.startsWith("ADD")) //MUST BE UPPERCASE
+                    {
+                        GameDaoInterface IGameDao = new MySqlGameDao();
+                        String tokens[] = message.split(" ");
+                        String name = tokens[1];
+                        double price = Double.parseDouble(tokens[2]);
+                        int quantity = Integer.parseInt(tokens[3]);
+                        try {
+                            IGameDao.addNewGame(name,price,quantity);
+                            DTOs.Game game = new DTOs.Game(name,price,quantity);
+
+                            socketWriter.println(gson.toJson(game));
+                        }
+                        catch(DaoException e )
+                        {
+                            e.printStackTrace();
+                        }
+                    }
                     else if (message.startsWith("DELETE")) //MUST BE UPPERCASE
                     {
                         GameDaoInterface IGameDao = new MySqlGameDao();
                         String id = message.substring(7);
                         try
                         {
-                            IGameDao.deleteGameByID(id);
-                            socketWriter.println("Game deleted is ID exists");
+                            if (IGameDao.findGameByID(id) == null)
+                            {
+                                socketWriter.println("Games does not exist in database");
+                            }
+                            else
+                            {
+                                IGameDao.deleteGameByID(id);
+                                socketWriter.println("Game successfully deleted!");
+                            }
+
                         }
                         catch(DaoException e )
                         {

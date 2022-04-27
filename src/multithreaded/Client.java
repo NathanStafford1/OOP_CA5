@@ -42,11 +42,11 @@ public class Client
 
             System.out.println("Client message: The Client is running and has connected to the server");
 
-            System.out.println("Please enter a command:  (\"ID\" followed by the ID to search the database for a game," +
-                    " \"ALL\" to view all games in database, " +
-                    " \"ADD\" followed by the data to add a game to the database, " +
-                    "\"DELETE\" followed by the ID of the game you want to delete, " +
-                    "\"AVERAGE\" to get the average price of the games" +
+            System.out.println("Please enter a command:  (\"ID\" followed by the ID to search the database for a game, \n" +
+                    " \"ALL\" to view all games in database, \n" +
+                    " \"ADD\" followed by the data to add a game to the database, \n" +
+                    " \"DELETE\" followed by the ID of the game you want to delete, \n" +
+                    " \"AVERAGE\" to get the average price of the games" +
                     ") \n>");
             String command = in.nextLine();
 
@@ -56,6 +56,13 @@ public class Client
             socketWriter.println(command);
 
             Scanner socketReader = new Scanner(socket.getInputStream());  // wait for, and retrieve the reply
+            final String COMMAND_DISPLAY_ALL = "ALL";
+            final String COMMAND_ID_SEARCH = "ID";
+            final String COMMAND_DELETE_GAME = "DELETE";
+            final String COMMAND_AVERAGE_GAME_PRICES = "AVERAGE";
+            final String COMMAND_DISPLAY_ADD = "ADD";
+
+
             boolean keep_looping = true;
             while (keep_looping == true)
             {
